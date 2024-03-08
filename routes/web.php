@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\HomeController;
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,10 +25,21 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::get('/user', [UserController::class, 'index'])->name('user.list');
+    Route::patch('/user', [UserController::class, 'update'])->name('profile.update');
+    Route::delete('/user', [UserController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/', [HomeController::class, 'index'])->name('profile.edit');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 });
 
 require __DIR__.'/auth.php';
+
+
+Auth::routes();
