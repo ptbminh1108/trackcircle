@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserGroup;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator ;
+use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\Rules;
 
 class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -26,36 +29,81 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-
-        $user_groups = UserGroup::all();
-
-
-        $button_submit_name = "Create";
-        $url_submit = url('/user/create');
+       
+        $data = [];
+        
 
         if ($request->isMethod('post'))
-        {
-            $request->validate([
+        {   
+            $validator = Validator::make($request->all(),[
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
                 'password' => ['required', Rules\Password::defaults()],
             ]);
     
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'user_group_id' => $request->user_group_id,
-                'password' =>  Hash::make($request->password),
-                'status' => isset($request->status) ? 1 : 0,
-            ]);
+            if ($validator->fails()) {
+               
+                return redirect()->to($request->getRequestUri())
+                ->withInput($request->input())
+                ->withErrors($validator->errors());
+            }
     
+            if ($validator->passes()) {
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'user_group_id' => $request->user_group_id,
+                    'password' =>  Hash::make($request->password),
+                    'status' => isset($request->status) ? 1 : 0,
+                ]);
+                
+                if($user){
+                    return redirect('/user');
+                }
     
+            }
     
-    
-            return redirect('/user');
+            
+            // return redirect()->to($request->getRequestUri())
+            // ->withInput($request->input())
+            // ->withErrors($validator->errors(), $this->errorBag());
+        }
+
+
+        if(array_key_exists('name', $request->old())){
+            $data['user']['name'] = $request->old('name');
+        }else{
+            $data['user']['name'] = '';
         }
         
-        return view('admin.user.user-edit',compact('user_groups','button_submit_name','url_submit'));
+         // email
+         if(array_key_exists('email', $request->old())){
+            $data['user']['email'] = $request->old('email');
+        }else{
+            $data['user']['email'] = '';
+        }
+
+        // status
+        if(array_key_exists('status', $request->old())){
+            $data['user']['status'] = $request->old('status');
+        }else{
+            $data['user']['status'] = '';
+        }
+
+         // group_id
+         if(array_key_exists('user_group_id', $request->old())){
+            $data['user']['user_group_id'] = $request->old('user_group_id');
+        }else{
+            $data['user']['user_group_id'] = '';
+        }
+
+
+        $user_groups = UserGroup::all();
+        $data['user_groups'] = UserGroup::all();
+        $data['button_submit_name'] = "Create";
+        $data['url_submit'] = url('/user/create');
+
+        return view('admin.user.user-edit',compact('data'));
     }
 
     /**
@@ -84,18 +132,63 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request,string $id)
     {
+        $data = [];
+        
+        // get error from session
+        // $errors = session()->get('errors', app(ViewErrorBag::class));
+
         if($id){
-            $user = User::where("id",'=',$id)->firstOrFail();
+            $user  = User::where("id",'=',$id)->firstOrFail();
+            $data['user']['id'] = $user['id'];
+        }
+
+        // Get previous request
+        // Name
+       
+        if(array_key_exists('name', $request->old())){
+            $data['user']['name'] = $request->old('name');
+        }elseif($user){
+            $data['user']['name'] = $user['name'];
+        }else{
+            $data['user']['name'] = '';
         }
         
-        $user_groups = UserGroup::all();
-        $button_submit_name = "Save";
-        $url_submit = url('/user/edit/' . $id) ;
+         // email
+         if(array_key_exists('email', $request->old())){
+            $data['user']['email'] = $request->old('email');
+        }elseif($user){
+            $data['user']['email'] = $user['email'];
+        }else{
+            $data['user']['email'] = '';
+        }
+
+        // status
+        if(array_key_exists('status', $request->old())){
+            $data['user']['status'] = $request->old('status');
+        }elseif($user){
+            $data['user']['status'] = $user['status'];
+        }else{
+            $data['user']['status'] = '';
+        }
+
+         // group_id
+         if(array_key_exists('user_group_id', $request->old())){
+            $data['user']['user_group_id'] = $request->old('user_group_id');
+        }elseif($user){
+            $data['user']['user_group_id'] = $user['user_group_id'];
+        }else{
+            $data['user']['user_group_id'] = '';
+        }
 
 
-    return view('admin.user.user-edit',compact('user','user_groups','button_submit_name','url_submit'));
+        $data['user_groups'] = UserGroup::all();
+        $data['button_submit_name'] = "Save";
+        $data['url_submit'] = url('/user/edit/' . $id) ;
+
+
+    return view('admin.user.user-edit',compact('data'));
     }
 
     /**
@@ -104,26 +197,38 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             // 'user_group_id' => ['required', 'int', 'exist:'.User::class],
         ]);
 
-        $user = User::where('id',$id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'user_group_id' => $request->user_group_id,
-            'status' => isset($request->status) ? 1 : 0,
-        ]);
 
-        // var_dump($request->name);
-        // var_dump($request->email);
-        // var_dump($request->password);
+        if ($validator->fails()) {
+           
+            return redirect()->to($request->getRequestUri())
+            ->withInput($request->input())
+            ->withErrors($validator->errors());
+        }
 
+        if ($validator->passes()) {
+            $user = User::where('id',$id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'user_group_id' => $request->user_group_id,
+                'status' => isset($request->status) ? 1 : 0,
+            ]);
+            
+            if($user){
+                return redirect('/user');
+            }
 
+        }
 
-        return redirect('/user');
+        
+        return redirect()->to($request->getRequestUri())
+        ->withInput($request->input())
+        ->withErrors($validator->errors(), $this->errorBag());
     }
 
     /**
