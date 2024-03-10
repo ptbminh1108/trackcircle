@@ -31,8 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/user', [UserController::class, 'index'])->name('user.list');
-    Route::patch('/user', [UserController::class, 'update'])->name('profile.update');
-    Route::delete('/user', [UserController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/user/edit/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::delete('/user/delete/{user-id}', [UserController::class, 'destroy'])->name('user.destroy');
 
     Route::get('/', [HomeController::class, 'index'])->name('profile.edit');
     Route::get('/home', [HomeController::class, 'index'])->name('home');

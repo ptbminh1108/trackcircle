@@ -43,9 +43,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        var_dump($request->name);
-        var_dump($request->email);
-        var_dump($request->password);
+        // var_dump($request->name);
+        // var_dump($request->email);
+        // var_dump($request->password);
 
         event(new Registered($user));
 

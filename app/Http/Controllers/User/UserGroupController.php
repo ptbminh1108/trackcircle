@@ -16,7 +16,7 @@ class UserGroupController extends Controller
         $data = [];
         
 
-        return view('user.user-group', $data);
+        return view('user.user-group-list', $data);
     }
 
     /**
