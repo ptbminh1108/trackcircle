@@ -34,7 +34,7 @@ Route::middleware(['auth','checkPermission'])->group(function () {
 
     // USER ROUTE
     // list user
-    Route::get('/user', [UserController::class, 'index'])->name('user.list');       
+    Route::get('/user/list', [UserController::class, 'index'])->name('user.list');       
     // edit user 
     Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     // edit user submit
@@ -48,7 +48,7 @@ Route::middleware(['auth','checkPermission'])->group(function () {
 
     // USERGROUP
     // list user-group
-    Route::get('/user-group', [UserGroupController::class, 'index'])->name('user-group.list');       
+    Route::get('/user-group/list', [UserGroupController::class, 'index'])->name('user-group.list');       
     // edit user-group 
     Route::get('/user-group/edit/{id}', [UserGroupController::class, 'edit'])->name('user-group.edit');
     // edit user-group submit
@@ -62,7 +62,7 @@ Route::middleware(['auth','checkPermission'])->group(function () {
 
     // ITEM
     // list item
-    Route::get('/item', [ItemController::class, 'index'])->name('item.list');       
+    Route::get('/item/list', [ItemController::class, 'index'])->name('item.list');       
     // edit item
     Route::get('/item/edit/{id}', [ItemController::class, 'edit'])->name('item.edit');
     // edit item submit
@@ -78,7 +78,7 @@ Route::middleware(['auth','checkPermission'])->group(function () {
       
     // MANUFACTURER
     // list manufacturer
-    Route::get('/manufacturer', [ManufacturerController::class, 'index'])->name('manufacturer.list');       
+    Route::get('/manufacturer/list', [ManufacturerController::class, 'index'])->name('manufacturer.list');       
     // edit manufacturer
     Route::get('/manufacturer/edit/{id}', [ManufacturerController::class, 'edit'])->name('manufacturer.edit');
     // edit manufacturer submit

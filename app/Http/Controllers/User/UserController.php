@@ -61,7 +61,7 @@ class UserController extends Controller
                 ]);
 
                 if ($user) {
-                    return redirect('/user');
+                    return redirect('/user/list');
                 }
             }
 
@@ -222,7 +222,7 @@ class UserController extends Controller
             ]);
 
             if ($user) {
-                return redirect('/user');
+                return redirect('/user/list');
             }
         }
 
@@ -243,7 +243,7 @@ class UserController extends Controller
 
         if ($user) {
             $user->delete();
-            return redirect('/user');
+            return redirect('/user/list');
         }
     }
 }

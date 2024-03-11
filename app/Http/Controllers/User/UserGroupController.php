@@ -51,7 +51,7 @@ class UserGroupController extends Controller
 
                 var_dump(json_encode($request->permissions, true));
                 if ($user_group) {
-                    return redirect('/user-group');
+                    return redirect('/user-group/list');
                 }
             }
 
@@ -179,23 +179,23 @@ class UserGroupController extends Controller
         }
 
         $data['permission_list'] = [
-            '/user',
+            '/user/list',
             '/user/create',
             '/user/edit',
             '/user/delete',
 
-            '/user-group',
+            '/user-group/list',
             '/user-group/create',
             '/user-group/edit',
             '/user-group/delete',
 
-            '/item',
+            '/item/list',
             '/item/create',
             '/item/edit',
             '/item/delete',
             '/item/all',
 
-            '/manufacturer',
+            '/manufacturer/list',
             '/manufacturer/create',
             '/manufacturer/edit',
             '/manufacturer/delete',
@@ -235,7 +235,7 @@ class UserGroupController extends Controller
             ]);
 
             if ($user_group) {
-                return redirect('/user-group');
+                return redirect('/user-group/list');
             }
         }
 

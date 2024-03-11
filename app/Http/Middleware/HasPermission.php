@@ -22,7 +22,11 @@ class HasPermission
     $permissions = UserGroup::where('id', '=',  $user->user_group_id)->first()['permissions'];
     if ($permissions) {
       foreach ($permissions as $permission) {
+       
+
         if (preg_match( '#^'.preg_quote($permission) ."(NULL||/.*)$#",$request->getRequestUri())) {
+          // echo $permission ."<br>";
+          // echo $request->getRequestUri() ."<br>";
           return $next($request);
         }
       }

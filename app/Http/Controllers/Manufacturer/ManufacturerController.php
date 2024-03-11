@@ -51,7 +51,7 @@ class ManufacturerController extends Controller
                 ]);
 
                 if ($manufacturer) {
-                    return redirect('/manufacturer');
+                    return redirect('/user-group/list');
                 }
             }
 
@@ -155,7 +155,7 @@ class ManufacturerController extends Controller
             ]);
 
             if ($manufacturer) {
-                return redirect('/manufacturer');
+                return redirect('/user-group/list');
             }
         }
 

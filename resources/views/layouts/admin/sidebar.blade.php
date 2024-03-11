@@ -15,24 +15,24 @@
         </a>
       </li>
       <li class="sidebar-item active">
-        <a class="sidebar-link" href="{{ url('item') }}">
+        <a class="sidebar-link" href="{{ url('item/list') }}">
           <i class="align-middle" data-feather="octagon"></i> <span class="align-middle">{{Lang::get('admin.item')}}</span>
         </a>
       </li>
       <li class="sidebar-item active">
-        <a class="sidebar-link" href="{{ url('manufacturer') }}">
+        <a class="sidebar-link" href="{{ url('manufacturer/list') }}">
           <i class="align-middle" data-feather="database"></i> <span class="align-middle">{{Lang::get('admin.manufacturer')}}</span>
         </a>
       </li>
 
       <li class="sidebar-item">
-        <a class="sidebar-link" href="{{ url('user-group') }}">
+        <a class="sidebar-link" href="{{ url('user-group/list') }}">
           <i class="align-middle" data-feather="lock"></i> <span class="align-middle">{{Lang::get('admin.user_group')}}</span>
         </a>
       </li>
 
       <li class="sidebar-item">
-        <a class="sidebar-link" href="{{ url('user') }}">
+        <a class="sidebar-link" href="{{ url('user/list') }}">
           <i class="align-middle" data-feather="user"></i> <span class="align-middle">{{Lang::get('admin.user')}}</span>
         </a>
       </li>
