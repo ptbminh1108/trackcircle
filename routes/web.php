@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Manufacturer\ManufacturerController;
 use App\Http\Controllers\User\UserGroupController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
@@ -59,7 +60,7 @@ Route::middleware(['auth','checkPermission'])->group(function () {
     // delte user-group
     Route::post('/user-group/delete/{id}', [UserGroupController::class, 'destroy'])->name('user-group.destroy');
 
-    // USERGROUP
+    // ITEM
     // list item
     Route::get('/item', [ItemController::class, 'index'])->name('item.list');       
     // edit item
@@ -73,7 +74,23 @@ Route::middleware(['auth','checkPermission'])->group(function () {
     // delte uitem
     Route::post('/item/delete/{id}', [ItemController::class, 'destroy'])->name('item.destroy');
       // list item
-      Route::get('/item/all', [ItemController::class, 'all'])->name('item.list');       
+      Route::get('/item/all', [ItemController::class, 'all'])->name('item.list');    
+      
+    // MANUFACTURER
+    // list manufacturer
+    Route::get('/manufacturer', [ManufacturerController::class, 'index'])->name('manufacturer.list');       
+    // edit manufacturer
+    Route::get('/manufacturer/edit/{id}', [ManufacturerController::class, 'edit'])->name('manufacturer.edit');
+    // edit manufacturer submit
+    Route::post('/manufacturer/edit/{id}', [ManufacturerController::class, 'update'])->name('manufacturer.update');
+    // create manufacturer
+    Route::get('/manufacturer/create', [ManufacturerController::class, 'create'])->name('manufacturer.create');
+    // create manufacturer submit
+    Route::post('/manufacturer/create', [ManufacturerController::class, 'create'])->name('manufacturer.create');
+    // delte umanufacturer
+    Route::post('/manufacturer/delete/{id}', [ManufacturerController::class, 'destroy'])->name('manufacturer.destroy');
+      // list manufacturer
+    Route::get('/manufacturer/all', [ManufacturerController::class, 'all'])->name('manufacturer.list');    
 
     Route::get('/', [HomeController::class, 'index'])->name('profile.edit');
     Route::get('/home', [HomeController::class, 'index'])->name('home');

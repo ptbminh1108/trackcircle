@@ -20,4 +20,6 @@ return [
     'user' => 'User',
     'user_group' => 'User Group',
 
+    'manufacturer' => 'Manufacturer',
+    'item' => 'Item',
 ];

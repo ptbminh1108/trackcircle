@@ -74,7 +74,11 @@
         </div>
     </div>
 </div> -->
-<section class="content content justify-content-center d-flex" id="register-header-step">
+
+<section class="back-to-login content">
+    <a href="{{ url('/login')}}"> <i data-feather='corner-down-left'></i>Back to Login</a>
+</section>
+<section class="content  justify-content-center d-flex" id="register-header-step">
     <div class="row  form-register">
         <div class="col-sm-4" id="header-step-1">
             <div class="row">
@@ -396,6 +400,10 @@
     .round-cirle svg {
         width: 30px;
         height: 30px;
+    }
+    .back-to-login  a{
+        font-size: 21px;
+        color: black;
     }
 </style>
 @endsection

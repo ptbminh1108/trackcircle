@@ -25,9 +25,97 @@ class UserGroupController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $data = [];
+
+
+        if ($request->isMethod('post')) {
+            $validator = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255'],
+            ]);
+
+            if ($validator->fails()) {
+
+                return redirect()->to($request->getRequestUri())
+                    ->withInput($request->input())
+                    ->withErrors($validator->errors());
+            }
+
+            if ($validator->passes()) {
+                $user_group = UserGroup::create([
+                    'name' => $request->name,
+                    'permission_type' => $request->permission_type,
+                    'permissions' =>$request->permissions,
+                ]);
+
+                var_dump(json_encode($request->permissions, true));
+                if ($user_group) {
+                    return redirect('/user-group');
+                }
+            }
+
+
+            return redirect()->to($request->getRequestUri())
+            ->withInput($request->input())
+            ->withErrors($validator->errors(), $this->errorBag());
+        }
+
+
+        if (array_key_exists('name', $request->old())) {
+            $data['user']['name'] = $request->old('name');
+        } else {
+            $data['user']['name'] = '';
+        }
+
+      
+    
+
+
+
+        if (array_key_exists('name', $request->old())) {
+            $data['user_group']['name'] = $request->old('name');
+        }  else {
+            $data['user_group']['name'] = '';
+        }
+
+        // permission_type
+        if (array_key_exists('user_group_id', $request->old())) {
+            $data['user_group']['permission_type'] = $request->old('permission_type');
+        }else {
+            $data['user_group']['permission_type'] = '';
+        }
+
+        // permissions
+        if (array_key_exists('permissions', $request->old())) {
+            $data['user_group']['permissions'] = $request->old('permissions');
+        } else {
+            $data['user_group']['permissions'] = [];
+        }
+
+        $data['permission_list'] = [
+            '/user',
+            '/user/create',
+            '/user/edit',
+            '/user/delete',
+
+            '/user-group',
+            '/user-group/create',
+            '/user-group/edit',
+            '/user-group/delete',
+
+            '/item',
+            '/item/create',
+            '/item/edit',
+            '/item/delete',
+            '/item/all',
+
+        ];
+
+        $data['button_submit_name'] = "Save";
+        $data['url_submit'] = url('/user-group/create/');
+
+        return view('admin.user-group.user-group-edit', compact('data'));
     }
 
     /**
@@ -107,6 +195,12 @@ class UserGroupController extends Controller
             '/item/delete',
             '/item/all',
 
+            '/manufacturer',
+            '/manufacturer/create',
+            '/manufacturer/edit',
+            '/manufacturer/delete',
+            '/manufacturer/all',
+
         ];
 
         $data['button_submit_name'] = "Save";
@@ -137,7 +231,7 @@ class UserGroupController extends Controller
             $user_group = UserGroup::where('id', $id)->update([
                 'name' => $request->name,
                 'permission_type' => $request->permission_type,
-                'permissions' =>json_encode($request->permissions, true),
+                'permissions' =>$request->permissions,
             ]);
 
             if ($user_group) {

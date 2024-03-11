@@ -11,7 +11,17 @@
 
       <li class="sidebar-item active">
         <a class="sidebar-link" href="{{ url('profile') }}">
-          <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">{{Lang::get('admin.profile')}}</span>
+          <i class="align-middle" data-feather="user"></i> <span class="align-middle">{{Lang::get('admin.profile')}}</span>
+        </a>
+      </li>
+      <li class="sidebar-item active">
+        <a class="sidebar-link" href="{{ url('item') }}">
+          <i class="align-middle" data-feather="octagon"></i> <span class="align-middle">{{Lang::get('admin.item')}}</span>
+        </a>
+      </li>
+      <li class="sidebar-item active">
+        <a class="sidebar-link" href="{{ url('manufacturer') }}">
+          <i class="align-middle" data-feather="database"></i> <span class="align-middle">{{Lang::get('admin.manufacturer')}}</span>
         </a>
       </li>
 
