@@ -52,8 +52,5 @@ class User extends Authenticatable
     {
         return $this->BelongsTo(UserGroup::class,'user_group_id');
     }
-    public function hasRole():bool
-    {
-        return true;
-    }
+    
 }

@@ -18,5 +18,6 @@ return [
     'log_in' => 'Log In',
     'log_out' => 'Log Out',
     'user' => 'User',
+    'user_group' => 'User Group',
 
 ];

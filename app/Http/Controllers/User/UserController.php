@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserGroup;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator ;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -19,7 +20,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['user_groups'])->get();
+       
+       
+        $user_login_id = Auth::id();
+        $users = User::with(['user_groups'])->where('id', '!=', $user_login_id)->get();
 
         return view('admin.user.user-list', compact('users'));
     }
@@ -29,25 +33,24 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-       
-        $data = [];
-        
 
-        if ($request->isMethod('post'))
-        {   
-            $validator = Validator::make($request->all(),[
+        $data = [];
+
+
+        if ($request->isMethod('post')) {
+            $validator = Validator::make($request->all(), [
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['required', Rules\Password::defaults()],
             ]);
-    
+
             if ($validator->fails()) {
-               
+
                 return redirect()->to($request->getRequestUri())
-                ->withInput($request->input())
-                ->withErrors($validator->errors());
+                    ->withInput($request->input())
+                    ->withErrors($validator->errors());
             }
-    
+
             if ($validator->passes()) {
                 $user = User::create([
                     'name' => $request->name,
@@ -56,44 +59,43 @@ class UserController extends Controller
                     'password' =>  Hash::make($request->password),
                     'status' => isset($request->status) ? 1 : 0,
                 ]);
-                
-                if($user){
+
+                if ($user) {
                     return redirect('/user');
                 }
-    
             }
-    
-            
+
+
             // return redirect()->to($request->getRequestUri())
             // ->withInput($request->input())
             // ->withErrors($validator->errors(), $this->errorBag());
         }
 
 
-        if(array_key_exists('name', $request->old())){
+        if (array_key_exists('name', $request->old())) {
             $data['user']['name'] = $request->old('name');
-        }else{
+        } else {
             $data['user']['name'] = '';
         }
-        
-         // email
-         if(array_key_exists('email', $request->old())){
+
+        // email
+        if (array_key_exists('email', $request->old())) {
             $data['user']['email'] = $request->old('email');
-        }else{
+        } else {
             $data['user']['email'] = '';
         }
 
         // status
-        if(array_key_exists('status', $request->old())){
+        if (array_key_exists('status', $request->old())) {
             $data['user']['status'] = $request->old('status');
-        }else{
+        } else {
             $data['user']['status'] = '';
         }
 
-         // group_id
-         if(array_key_exists('user_group_id', $request->old())){
+        // group_id
+        if (array_key_exists('user_group_id', $request->old())) {
             $data['user']['user_group_id'] = $request->old('user_group_id');
-        }else{
+        } else {
             $data['user']['user_group_id'] = '';
         }
 
@@ -103,16 +105,16 @@ class UserController extends Controller
         $data['button_submit_name'] = "Create";
         $data['url_submit'] = url('/user/create');
 
-        return view('admin.user.user-edit',compact('data'));
+        return view('admin.user.user-edit', compact('data'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    //
-}
+    {
+        //
+    }
 
     /**
      * Display the specified resource.
@@ -132,63 +134,63 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request,string $id)
+    public function edit(Request $request, string $id)
     {
         $data = [];
-        
+
         // get error from session
         // $errors = session()->get('errors', app(ViewErrorBag::class));
 
-        if($id){
-            $user  = User::where("id",'=',$id)->firstOrFail();
+        if ($id) {
+            $user  = User::where("id", '=', $id)->firstOrFail();
             $data['user']['id'] = $user['id'];
         }
 
         // Get previous request
         // Name
-       
-        if(array_key_exists('name', $request->old())){
+
+        if (array_key_exists('name', $request->old())) {
             $data['user']['name'] = $request->old('name');
-        }elseif($user){
+        } elseif ($user) {
             $data['user']['name'] = $user['name'];
-        }else{
+        } else {
             $data['user']['name'] = '';
         }
-        
-         // email
-         if(array_key_exists('email', $request->old())){
+
+        // email
+        if (array_key_exists('email', $request->old())) {
             $data['user']['email'] = $request->old('email');
-        }elseif($user){
+        } elseif ($user) {
             $data['user']['email'] = $user['email'];
-        }else{
+        } else {
             $data['user']['email'] = '';
         }
 
         // status
-        if(array_key_exists('status', $request->old())){
+        if (array_key_exists('status', $request->old())) {
             $data['user']['status'] = $request->old('status');
-        }elseif($user){
+        } elseif ($user) {
             $data['user']['status'] = $user['status'];
-        }else{
+        } else {
             $data['user']['status'] = '';
         }
 
-         // group_id
-         if(array_key_exists('user_group_id', $request->old())){
+        // group_id
+        if (array_key_exists('user_group_id', $request->old())) {
             $data['user']['user_group_id'] = $request->old('user_group_id');
-        }elseif($user){
+        } elseif ($user) {
             $data['user']['user_group_id'] = $user['user_group_id'];
-        }else{
+        } else {
             $data['user']['user_group_id'] = '';
         }
 
 
         $data['user_groups'] = UserGroup::all();
         $data['button_submit_name'] = "Save";
-        $data['url_submit'] = url('/user/edit/' . $id) ;
+        $data['url_submit'] = url('/user/edit/' . $id);
 
 
-    return view('admin.user.user-edit',compact('data'));
+        return view('admin.user.user-edit', compact('data'));
     }
 
     /**
@@ -196,8 +198,8 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
-        $validator = Validator::make($request->all(),[
+
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             // 'user_group_id' => ['required', 'int', 'exist:'.User::class],
@@ -205,30 +207,29 @@ class UserController extends Controller
 
 
         if ($validator->fails()) {
-           
+
             return redirect()->to($request->getRequestUri())
-            ->withInput($request->input())
-            ->withErrors($validator->errors());
+                ->withInput($request->input())
+                ->withErrors($validator->errors());
         }
 
         if ($validator->passes()) {
-            $user = User::where('id',$id)->update([
+            $user = User::where('id', $id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'user_group_id' => $request->user_group_id,
                 'status' => isset($request->status) ? 1 : 0,
             ]);
-            
-            if($user){
+
+            if ($user) {
                 return redirect('/user');
             }
-
         }
 
-        
+
         return redirect()->to($request->getRequestUri())
-        ->withInput($request->input())
-        ->withErrors($validator->errors(), $this->errorBag());
+            ->withInput($request->input())
+            ->withErrors($validator->errors(), $this->errorBag());
     }
 
     /**
@@ -236,6 +237,13 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user_login_id = Auth::id();
+
+        $user = User::where('id', '=', $id)->where('id', '!=', $user_login_id);
+
+        if ($user) {
+            $user->delete();
+            return redirect('/user');
+        }
     }
 }

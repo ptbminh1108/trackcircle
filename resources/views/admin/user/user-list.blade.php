@@ -5,7 +5,7 @@
 <main>
   <div class="row" style="margin-bottom: 10px">
     <div class="d-flex flex-row-reverse">
-      <a class="badge bg-danger "href="{{url('/user/create')}}"> <i class="d-inline" data-feather="plus"></i><span class="d-inline"> Add New User</span></a>
+      <a class="badge bg-danger " href="{{url('/user/create')}}"> <i class="d-inline" data-feather="plus"></i><span class="d-inline"> Add New User</span></a>
     </div>
   </div>
   <div class="row">
@@ -40,9 +40,13 @@
                 <a class="badge bg-success" href="{{url('/user/edit/' . $user->id)}}">
                   <i data-feather="edit"></i>
                 </a>
-                <button class="badge bg-danger">
-                  <i data-feather="trash"></i>
-                </button>
+                <form  method="post" action="{{url('/user/delete/' . $user->id)}}" >
+                  @csrf
+                  <button class="badge bg-danger" type = 'submit'>
+                    <i data-feather="trash"></i>
+                  </button>
+                </form>
+
               </td>
             </tr>
             @endforeach
@@ -54,6 +58,6 @@
   </div>
 </main>
 <style>
-  
+
 </style>
 @endsection

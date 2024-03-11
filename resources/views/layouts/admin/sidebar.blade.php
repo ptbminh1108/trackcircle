@@ -16,8 +16,8 @@
       </li>
 
       <li class="sidebar-item">
-        <a class="sidebar-link" href="{{ url('permission') }}">
-          <i class="align-middle" data-feather="lock"></i> <span class="align-middle">{{Lang::get('admin.permissions')}}</span>
+        <a class="sidebar-link" href="{{ url('user-group') }}">
+          <i class="align-middle" data-feather="lock"></i> <span class="align-middle">{{Lang::get('admin.user_group')}}</span>
         </a>
       </li>
 
