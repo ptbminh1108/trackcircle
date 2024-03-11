@@ -15,7 +15,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" >
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -113,6 +113,7 @@
 
 </section>
 
+<section class="validate-input-noti content  justify-content-center d-flex hidden"><span class="message"><p>Email is wrong format.</p> </span><span id="btn-close-noti"><i data-feather="x"></i></span></section>
 <section class="content justify-content-center d-flex" id='register-form'>
 
 
@@ -171,7 +172,7 @@
                         <!-- Name -->
                         <div class="form-group">
                             <label for="formClient-Name">{{ Lang::get('auth.user_name') }}</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('email') }}" id="formClient-Name" required autofocus />
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" id="formClient-Name" required  />
                             @error('name')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -229,7 +230,7 @@
                         <!-- Password -->
                         <div class="form-group">
                             <label for="formClient-Password">{{ Lang::get('auth.user_password') }}</label>
-                            <input type="password" class="form-control @error('email') is-invalid @enderror" name="password" minlength="6" id="formClient-Password" required placeholder="{{ Lang::get('auth.user_password') }}">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" minlength="6" id="formClient-Password" required placeholder="{{ Lang::get('auth.user_password') }}">
                             @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -240,7 +241,12 @@
                         <!-- Confirm Password -->
                         <div class="form-group">
                             <label for="formClient-ConfirmPassword">{{ Lang::get('auth.user_password_confirm') }}</label>
-                            <input type="password" class="form-control" name="password_confirmation" equalTo="#formClient-Password" id="formClient-ConfirmPassword" required placeholder="{{ Lang::get('auth.user_password_confirm') }}">
+                            <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation" equalTo="#formClient-Password" id="formClient-ConfirmPassword" required placeholder="{{ Lang::get('auth.user_password_confirm') }}">
+                            @error('password_confirmation')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
 
                     </div>
@@ -331,14 +337,46 @@
     }
 
     function moveStep3Click() {
+
+
+        // validate data
+        name =   $("input[name='name']").val();
+        email = $("input[name='email']").val();
+
+        if ( name == ''){
+            $(".validate-input-noti").removeClass("hidden");
+            $(".validate-input-noti span p ").text("Name is empty !!!");
+            return;
+        }
+
+        
+        re = /\S+@\S+\.\S+/;
+        if ( !re.test(email)){
+            $(".validate-input-noti").removeClass("hidden");
+            $(".validate-input-noti span p ").text("Email is wrong format !!!");
+            return;
+        }
+        
+        feather.replace()
+
         $("#step-2").addClass("hidden");
         $("#step-3").removeClass("hidden");
         $("#button-step-2").addClass("hidden");
         $("#button-step-3").removeClass("hidden");
+        
+        $(".validate-input-noti").addClass("hidden");
+
 
         $("#header-step-2 .round-cirle").html(` <i  class="align-middle" data-feather="check" style="color:rgb(65 209 106)"></i>`);
-        feather.replace()
+
     }
+
+    $("#btn-close-noti").on("click",()=>{
+
+       
+        $(".validate-input-noti").addClass("hidden");
+
+    });
 </script>
 <style>
     .form-register {
@@ -404,6 +442,27 @@
     .back-to-login  a{
         font-size: 21px;
         color: black;
+    }
+    .validate-input-noti .message{
+        padding-left: 16px;
+        /* width: 100%; */
+        line-height: 2.2;
+        height: 36px;
+        background: #ff0000a6;
+        width: 100%;
+        border-radius: 11px;
+        font-weight: bold;
+    }
+    .validate-input-noti {
+        padding: 0px;
+    }
+    .validate-input-noti svg {
+        stroke-width: 3px;
+        margin-top: 8px;
+    margin-left: -26px;
+    }
+    .hidden {
+        display: none!important;
     }
 </style>
 @endsection
