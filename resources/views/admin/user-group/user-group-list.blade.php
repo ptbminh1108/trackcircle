@@ -24,37 +24,43 @@
 
             <h5 class="card-title mb-0">User Group</h5>
           </div>
-          <table class="table table-hover my-0">
-            <thead>
-              <tr>
-                <th class="d-none d-xl-table-cell text-center">Name</th>
-                <th class="d-none d-xl-table-cell text-center">Permission Type</th>
-                <th class="d-none d-xl-table-cell text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
+          <table class="table table-bordered" id="userGroupTable">
+              <thead>
+                <tr>
+                  <th class="d-none d-xl-table-cell text-center">Name</th>
+                  <th class="d-none d-xl-table-cell text-center">Permission Type</th>
+                  <th class="d-none d-xl-table-cell text-center">Action</th>
+                </tr>
+              </thead>
 
-              @foreach ($data['user_groups'] as $user_group)
-              <tr>
-                <td class="d-none d-xl-table-cell text-center">{{ $user_group->name }}</td>
-
-                <td class="d-none d-xl-table-cell text-center">{{ $user_group->permission_type }}</td>
-                <td class="d-none d-xl-table-cell text-center">
-                  <a class="badge bg-success" href="{{url('/user-group/edit/' . $user_group->id)}}">
-                    <i data-feather="edit"></i>
-                  </a>
-                </td>
-              </tr>
-              @endforeach
-
-          </table>
+            </table>
         </div>
       </div>
 
     </div>
   </div>
 </main>
-<style>
-
-</style>
+@push('scripts')
+<script>
+  $(document).ready(function() {
+    $('#userGroupTable').DataTable({
+      data: @json($data['user_groups']),
+      columnDefs: [{
+        "className": "dt-center",
+        "targets": "_all"
+      }],
+      columns: [{
+          data: 'name'
+        },
+        {
+          data: 'permission_type'
+        },
+        {
+          data: 'action'
+        }
+      ]
+    });
+  });
+</script>
+@endpush
 @endsection

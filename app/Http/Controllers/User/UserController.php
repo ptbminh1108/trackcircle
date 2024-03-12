@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
-
+use Yajra\Datatables\Datatables;
 class UserController extends Controller
 {
 
@@ -23,8 +24,17 @@ class UserController extends Controller
         $data = [];
 
         $user_login_id = Auth::id();
-        $data['users'] = User::with(['user_groups'])->where('id', '!=', $user_login_id)->get();
-
+        $users =  User::with(['user_groups'])->where('id', '!=', $user_login_id)->get();
+        // $data['users'] = Datatables::of($users)->make(true);
+        $data['users'] = [];
+        foreach($users as $user){
+            $data['users'][] = array(
+                "name" => $user['name'],
+                "user_group" => $user['user_groups']['name'],
+                "status" =>'<label class="switch"> <input type="checkbox" '. ($user->status ? 'checked' : '') .'> <span class="slider round"></span></label>',
+                "action" => ' <a class="badge bg-success" href="'.url("/user/edit/" . $user->id).'">  <i data-feather="edit"></i> </a>  <form method="post" action="'.url("/user/delete/" . $user->id).'"> '.csrf_field().'<button class="badge bg-danger" type="submit">    <i data-feather="trash"></i></button> </form>',
+            );
+        }
         // Breadcrumb
         $data['breadcrumbs'] = array();
 

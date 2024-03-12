@@ -16,8 +16,16 @@ class UserGroupController extends Controller
     {
 
         $data = [];
-        $data['user_groups'] = UserGroup::get();
+        $user_groups = UserGroup::get();
 
+        $data['user_groups'] = [];
+        foreach($user_groups as $user_group){
+            $data['user_groups'][] = array(
+                "name" => $user_group['name'],
+                "permission_type" => $user_group['permission_type'],
+                "action" => ' <a class="badge bg-success" href="'.url("/user/edit/" . $user_group->id).'">  <i data-feather="edit"></i> </a> ',
+            );
+        }
         // Breadcrumb
         $data['breadcrumbs'] = array();
 

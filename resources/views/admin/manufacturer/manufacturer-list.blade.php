@@ -24,46 +24,53 @@
 
             <h5 class="card-title mb-0">Manufacturers</h5>
           </div>
-          <table class="table table-hover my-0">
-            <thead>
-              <tr>
-                <th class="d-none d-xl-table-cell text-center">Name</th>
-                <th class="d-none d-xl-table-cell text-center">Description</th>
-                <th class="d-none d-xl-table-cell text-center">Create Time</th>
-                <th class="d-none d-xl-table-cell text-center">Update Time</th>
-                <th class="d-none d-xl-table-cell text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div class="card-body">
+            <table class="table table-bordered" id="manufacturerTable">
+              <thead>
+                <tr>
+                  <th class="d-none d-xl-table-cell text-center">Name</th>
+                  <th class="d-none d-xl-table-cell text-center">Description</th>
+                  <th class="d-none d-xl-table-cell text-center">Create Time</th>
+                  <th class="d-none d-xl-table-cell text-center">Update Time</th>
+                  <th class="d-none d-xl-table-cell text-center">Action</th>
+                </tr>
+              </thead>
 
-              @foreach ($data['manufacturers'] as $manufacturer)
-              <tr>
-                <td class="d-none d-xl-table-cell text-center">{{ $manufacturer->name }}</td>
-                <td class="d-none d-xl-table-cell text-center">{{ $manufacturer->description }}</td>
-                <td class="d-none d-xl-table-cell text-center">{{ $manufacturer->created_at }}</td>
-                <td class="d-none d-xl-table-cell text-center">{{ $manufacturer->updated_at }}</td>
-                <td class="d-none d-xl-table-cell text-center"> <a class="badge bg-success" href="{{url('/manufacturer/edit/' . $manufacturer->id)}}">
-                    <i data-feather="edit"></i>
-                  </a>
-                  <form method="post" action="{{url('/manufacturer/delete/' . $manufacturer->id)}}">
-                    @csrf
-                    <button class="badge bg-danger" type='submit'>
-                      <i data-feather="trash"></i>
-                    </button>
-                  </form>
-                </td>
-
-              </tr>
-              @endforeach
-
-          </table>
+            </table>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
 </main>
-<style>
-
-</style>
+@push('scripts')
+<script>
+  $(document).ready(function() {
+    $('#manufacturerTable').DataTable({
+      data: @json($data['manufacturers']),
+      columnDefs: [{
+        "className": "dt-center",
+        "targets": "_all",
+      }],
+      columns: [{
+          data: 'name'
+        },
+        {
+          data: 'description'
+        },
+        {
+          data: 'created_time'
+        },
+        {
+          data: 'updated_time'
+        },
+        {
+          data: 'action'
+        }
+      ]
+    });
+  });
+</script>
+@endpush
 @endsection

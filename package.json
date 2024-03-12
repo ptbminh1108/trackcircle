@@ -13,6 +13,7 @@
         "axios": "^1.6.4",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.11.3",
+        "laravel-datatables-vite": "^0.5.2",
         "laravel-vite-plugin": "^1.0.0",
         "postcss": "^8.4.31",
         "sass": "^1.56.1",
@@ -21,6 +22,8 @@
     },
     "dependencies": {
         "chart.js": "^4.4.2",
+        "datatables.net": "^2.0.2",
+        "datatables.net-dt": "^2.0.2",
         "feather-icons": "^4.29.1",
         "flatpickr": "^4.6.13",
         "font-awesome": "^4.7.0",

@@ -17,5 +17,10 @@ import "./modules/vector-maps";
 
 // import './bootstrap';
 
+
 import jQuery from 'jquery';
-window.$ = window.jQuery = require('jquery');
+window.$ = jQuery;
+
+import 'laravel-datatables-vite';
+import 'datatables.net';
+import 'datatables.net-dt';
