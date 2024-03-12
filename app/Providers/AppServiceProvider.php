@@ -66,6 +66,29 @@ class AppServiceProvider extends ServiceProvider
                     );
                 }
 
+                // Customer  - lv2
+                if ($user_login->hasPermission("/customer/list")) {
+                    $product_menu[] = array(
+                        'id'       => 'user',
+                        'icon'       => 'fa-user',
+                        'name'       =>  'Customer',
+                        'href'     =>   url('/customer/list'),
+                        'children' => array()
+                    );
+                }
+
+                 // Currency  - lv2
+                 if ($user_login->hasPermission("/currency/list")) {
+                    $product_menu[] = array(
+                        'id'       => 'user',
+                        'icon'       => 'fa-money-bill',
+                        'name'       =>  'Currency',
+                        'href'     =>   url('/customer/list'),
+                        'children' => array()
+                    );
+                }
+    
+
 
                 $menus[] = array(
                     'id'       => 'product-menu',

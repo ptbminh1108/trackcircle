@@ -24,5 +24,6 @@ return [
     'item' => 'Item',
     'user' => 'User',
     'dashboard' => 'Dashboard',
+    'customer' => 'Customer',
 
 ];

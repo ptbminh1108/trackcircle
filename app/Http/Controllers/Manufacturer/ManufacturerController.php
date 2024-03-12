@@ -14,7 +14,12 @@ class ManufacturerController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
+        $user = Auth::user();
+        if($user->user_group_id == 1 ){
+            return redirect()->to(url('/manufacturer/all'));
+        }
+        
         $data = [];
 
         $user_login_id = Auth::id();
@@ -28,7 +33,7 @@ class ManufacturerController extends Controller
                 "description" => $manufacturer['description'],
                 "created_time" => $manufacturer['created_at'],
                 "updated_time" => $manufacturer['updated_at'],
-                "action" => ' <a class="badge bg-success" href="'.url("/manufacturer/edit/" . $manufacturer->id).'">  <i data-feather="edit"></i> </a>  <form method="post" action="'.url("/user/delete/" . $manufacturer->id).'"> '.csrf_field().'<button class="badge bg-danger" type="submit">    <i data-feather="trash"></i></button> </form>',
+                "action" => ' <a class="badge bg-success" href="'.url("/manufacturer/edit/" . $manufacturer->id).'">  <i data-feather="edit"></i> </a>  <form method="post" action="'.url("/manufacturer/delete/" . $manufacturer->id).'"> '.csrf_field().'<button class="badge bg-danger" type="submit">    <i data-feather="trash"></i></button> </form>',
             );
         }
         // Breadcrumb
@@ -250,9 +255,39 @@ class ManufacturerController extends Controller
      * Get all list item for Adminstrator.
      */
     public function all()
-    {
+    {   
+        
+        $data = [];
+
+        $user_login_id = Auth::id();
+
         $manufacturers = Manufacturer::get();
 
-        return view('admin.manufacturer.manufacturer-list', compact('manufacturers'));
+        $data['manufacturers'] = [];
+        foreach($manufacturers as $manufacturer){
+            $data['manufacturers'][] = array(
+                "name" => $manufacturer['name'],
+                "description" => $manufacturer['description'],
+                "created_time" => $manufacturer['created_at'],
+                "updated_time" => $manufacturer['updated_at'],
+                "action" => ' <a class="badge bg-success" href="'.url("/manufacturer/edit/" . $manufacturer->id).'">  <i data-feather="edit"></i> </a>  <form method="post" action="'.url("/user/delete/" . $manufacturer->id).'"> '.csrf_field().'<button class="badge bg-danger" type="submit">    <i data-feather="trash"></i></button> </form>',
+            );
+        }
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.manufacturer'),
+            'href' => url("/manufacturer/list")
+        );
+        $data['url_create'] = url("/manufacturer/create");
+        $data['title'] = __("admin.manufacturer");
+
+        return view('admin.manufacturer.manufacturer-list', compact('data'));
     }
 }

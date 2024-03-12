@@ -8,7 +8,44 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class UserGroupController extends Controller
-{
+{   
+
+    private $permission_list = [
+        '/user/list',
+        '/user/create',
+        '/user/edit',
+        '/user/delete',
+
+        '/user-group/list',
+        '/user-group/create',
+        '/user-group/edit',
+        '/user-group/delete',
+
+        '/item/list',
+        '/item/create',
+        '/item/edit',
+        '/item/delete',
+        '/item/all',
+        
+        '/customer/list',
+        '/customer/create',
+        '/customer/edit',
+        '/customer/delete',
+        '/customer/all',
+
+        '/manufacturer/list',
+        '/manufacturer/create',
+        '/manufacturer/edit',
+        '/manufacturer/delete',
+        '/manufacturer/all',
+
+        '/currency/list',
+        '/currency/create',
+        '/currency/edit',
+        '/currency/delete',
+        '/currency/all',
+
+    ];
     /**
      * Display a listing of the resource.
      */
@@ -127,24 +164,7 @@ class UserGroupController extends Controller
             'href' => url("/user/list")
         );
 
-        $data['permission_list'] = [
-            '/user',
-            '/user/create',
-            '/user/edit',
-            '/user/delete',
-
-            '/user-group',
-            '/user-group/create',
-            '/user-group/edit',
-            '/user-group/delete',
-
-            '/item',
-            '/item/create',
-            '/item/edit',
-            '/item/delete',
-            '/item/all',
-
-        ];
+        $data['permission_list'] = $this->permission_list;
 
         $data['button_submit_name'] = "Save";
         $data['url_submit'] = url('/user-group/create/');
@@ -213,30 +233,7 @@ class UserGroupController extends Controller
             $data['user_group']['permissions'] = [];
         }
 
-        $data['permission_list'] = [
-            '/user/list',
-            '/user/create',
-            '/user/edit',
-            '/user/delete',
-
-            '/user-group/list',
-            '/user-group/create',
-            '/user-group/edit',
-            '/user-group/delete',
-
-            '/item/list',
-            '/item/create',
-            '/item/edit',
-            '/item/delete',
-            '/item/all',
-
-            '/manufacturer/list',
-            '/manufacturer/create',
-            '/manufacturer/edit',
-            '/manufacturer/delete',
-            '/manufacturer/all',
-
-        ];
+        
         // Breadcrumb
         $data['breadcrumbs'] = array();
 
@@ -249,6 +246,7 @@ class UserGroupController extends Controller
             'text' => __('admin.user_group'),
             'href' => url("/user/list")
         );
+        $data['permission_list'] = $this->permission_list;
 
         $data['button_submit_name'] = "Save";
         $data['url_submit'] = url('/user-group/edit/' . $id);

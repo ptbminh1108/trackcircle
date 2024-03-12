@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Currency\Currency;
+use App\Http\Controllers\Currency\CurrencyController;
+use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\HomeController;
@@ -91,6 +94,38 @@ Route::middleware(['auth','checkPermission'])->group(function () {
     Route::post('/manufacturer/delete/{id}', [ManufacturerController::class, 'destroy'])->name('manufacturer.destroy');
       // list manufacturer
     Route::get('/manufacturer/all', [ManufacturerController::class, 'all'])->name('manufacturer.list');    
+
+     // CURRENCY
+    // list currency
+    Route::get('/currency/list', [CurrencyController::class, 'index'])->name('currency.list');       
+    // edit currency
+    Route::get('/currency/edit/{id}', [CurrencyController::class, 'edit'])->name('currency.edit');
+    // edit currency submit
+    Route::post('/currency/edit/{id}', [CurrencyController::class, 'update'])->name('currency.update');
+    // create currency
+    Route::get('/currency/create', [CurrencyController::class, 'create'])->name('currency.create');
+    // create currency submit
+    Route::post('/currency/create', [CurrencyController::class, 'create'])->name('currency.create');
+    // delte ucurrency
+    Route::post('/currency/delete/{id}', [CurrencyController::class, 'destroy'])->name('currency.destroy');
+      // list currency
+    Route::get('/currency/all', [CurrencyController::class, 'all'])->name('currency.list');  
+
+    // CUSTOMER
+    // list customer
+    Route::get('/customer/list', [CustomerController::class, 'index'])->name('customer.list');       
+    // edit customer
+    Route::get('/customer/edit/{id}', [CustomerController::class, 'edit'])->name('customer.edit');
+    // edit customer submit
+    Route::post('/customer/edit/{id}', [CustomerController::class, 'update'])->name('customer.update');
+    // create customer
+    Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
+    // create customer submit
+    Route::post('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
+    // delte customer
+    Route::post('/customer/delete/{id}', [CustomerController::class, 'destroy'])->name('customer.destroy');
+      // list customer
+    Route::get('/customer/all', [CustomerController::class, 'all'])->name('customer.list');  
 
     Route::get('/', [HomeController::class, 'index'])->name('profile.edit');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
