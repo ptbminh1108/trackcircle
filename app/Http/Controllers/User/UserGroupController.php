@@ -23,7 +23,7 @@ class UserGroupController extends Controller
             $data['user_groups'][] = array(
                 "name" => $user_group['name'],
                 "permission_type" => $user_group['permission_type'],
-                "action" => ' <a class="badge bg-success" href="'.url("/user/edit/" . $user_group->id).'">  <i data-feather="edit"></i> </a> ',
+                "action" => ' <a class="badge bg-success" href="'.url("/user-group/edit/" . $user_group->id).'">  <i data-feather="edit"></i> </a> ',
             );
         }
         // Breadcrumb
