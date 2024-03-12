@@ -22,7 +22,7 @@
         <div class="card flex-fill">
           <div class="card-header">
 
-            <h5 class="card-title mb-0">Manufacturers</h5>
+            <h5 class="card-title mb-0">Currency</h5>
           </div>
           <div class="card-body">
             <table class="table table-bordered" id="currencyTable">
