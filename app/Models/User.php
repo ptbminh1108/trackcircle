@@ -52,5 +52,11 @@ class User extends Authenticatable
     {
         return $this->BelongsTo(UserGroup::class,'user_group_id');
     }
+
+    public function hasPermission($permission)
+    {
+        $permissions = $this->user_groups->permissions;
+        return in_array( $permission,$permissions );
+    }
     
 }

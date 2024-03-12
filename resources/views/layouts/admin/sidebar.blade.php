@@ -6,115 +6,44 @@
 
     <ul class="sidebar-nav">
       <li class="sidebar-header">
-        User
+        Section
       </li>
 
-      <li class="sidebar-item active">
-        <a class="sidebar-link" href="{{ url('profile') }}">
-          <i class="align-middle" data-feather="user"></i> <span class="align-middle">{{Lang::get('admin.profile')}}</span>
+      @foreach ($menu as $menu)
+      <!-- memu lv 1 -->
+      <li class="sidebar-item" data-bs-toggle="collapse" href="#{{$menu['id']}}" aria-expanded="false" aria-controls="{{$menu['id']}}">
+        <a class="sidebar-link" href="{{ $menu['href'] }}">
+          <i class="fa {{$menu['icon']}}"></i> <span class="align-middle">{{$menu['name']}}</span>
         </a>
-      </li>
-      <li class="sidebar-item active">
-        <a class="sidebar-link" href="{{ url('item/list') }}">
-          <i class="align-middle" data-feather="octagon"></i> <span class="align-middle">{{Lang::get('admin.item')}}</span>
-        </a>
-      </li>
-      <li class="sidebar-item active">
-        <a class="sidebar-link" href="{{ url('manufacturer/list') }}">
-          <i class="align-middle" data-feather="database"></i> <span class="align-middle">{{Lang::get('admin.manufacturer')}}</span>
-        </a>
-      </li>
+        <div class="collapse" id="{{$menu['id']}}">
 
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="{{ url('user-group/list') }}">
-          <i class="align-middle" data-feather="lock"></i> <span class="align-middle">{{Lang::get('admin.user_group')}}</span>
-        </a>
-      </li>
+          @foreach ($menu['children'] as $menu_lv_1)
+          <ul class="sidebar-nav ">
+            <li class="sidebar-item" data-bs-toggle="collapse" href="#{{$menu_lv_1['id']}}" aria-expanded="false" aria-controls="{{$menu_lv_1['id']}}">
+              <a class="sidebar-link" href="{{$menu_lv_1['href']}}">
+                <i class="fa {{$menu_lv_1['icon']}}"></i> <span class="align-middle">{{$menu_lv_1['name']}}</span>
+              </a>
+            </li>
+          </ul>
+          @endforeach
 
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="{{ url('user/list') }}">
-          <i class="align-middle" data-feather="user"></i> <span class="align-middle">{{Lang::get('admin.user')}}</span>
-        </a>
+          <div>
+            <!-- Menu lv 2 -->
       </li>
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="{{ url('logout') }}">
-          <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">{{Lang::get('admin.log_out')}}</span>
-        </a>
-      </li>
+      @endforeach
 
-      <!-- <li class="sidebar-item">
-        <a class="sidebar-link" href="pages-sign-up.html">
-          <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Sign Up</span>
-        </a>
-      </li> -->
-
-      <!-- <li class="sidebar-item">
-        <a class="sidebar-link" href="pages-blank.html">
-          <i class="align-middle" data-feather="book"></i> <span class="align-middle">Blank</span>
-        </a>
-      </li>
-
-      <li class="sidebar-header">
-        Tools & Components
-      </li>
-
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="ui-buttons.html">
-          <i class="align-middle" data-feather="square"></i> <span class="align-middle">Buttons</span>
-        </a>
-      </li>
-
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="ui-forms.html">
-          <i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Forms</span>
-        </a>
-      </li>
-
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="ui-cards.html">
-          <i class="align-middle" data-feather="grid"></i> <span class="align-middle">Cards</span>
-        </a>
-      </li>
-
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="ui-typography.html">
-          <i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Typography</span>
-        </a>
-      </li>
-
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="icons-feather.html">
-          <i class="align-middle" data-feather="coffee"></i> <span class="align-middle">Icons</span>
-        </a>
-      </li>
-
-      <li class="sidebar-header">
-        Plugins & Addons
-      </li>
-
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="charts-chartjs.html">
-          <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Charts</span>
-        </a>
-      </li>
-
-      <li class="sidebar-item">
-        <a class="sidebar-link" href="maps-google.html">
-          <i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
-        </a>
-      </li>
     </ul>
 
-    <div class="sidebar-cta">
-      <div class="sidebar-cta-content">
-        <strong class="d-inline-block mb-2">Upgrade to Pro</strong>
-        <div class="mb-3 text-sm">
-          Are you looking for more components? Check out our premium version.
-        </div>
-        <div class="d-grid">
-          <a href="upgrade-to-pro.html" class="btn btn-primary">Upgrade to Pro</a>
-        </div>
-      </div>
-    </div> -->
+
   </div>
 </nav>
+
+<style>
+  .collapse.show {
+    visibility: visible;
+  }
+
+  ul ul {
+    padding-left: 15px !important;
+  }
+</style>
