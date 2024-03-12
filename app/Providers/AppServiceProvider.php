@@ -83,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
                         'id'       => 'user',
                         'icon'       => 'fa-money-bill',
                         'name'       =>  'Currency',
-                        'href'     =>   url('/customer/list'),
+                        'href'     =>   url('/currency/list'),
                         'children' => array()
                     );
                 }

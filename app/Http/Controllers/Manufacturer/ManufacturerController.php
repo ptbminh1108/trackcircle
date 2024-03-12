@@ -110,19 +110,6 @@ class ManufacturerController extends Controller
         );
 
         $data['breadcrumbs'][] = array(
-            'text' => __('admin.user_group'),
-            'href' => url("/user/list")
-        );
-
-        // Breadcrumb
-        $data['breadcrumbs'] = array();
-
-        $data['breadcrumbs'][] = array(
-            'text' => __('admin.dashboard'),
-            'href' => url("/dashboard")
-        );
-
-        $data['breadcrumbs'][] = array(
             'text' => __('admin.manufacturer'),
             'href' => url("/manufacturer/list")
         );
