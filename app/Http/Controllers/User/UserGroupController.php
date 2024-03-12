@@ -18,6 +18,20 @@ class UserGroupController extends Controller
         $data = [];
         $data['user_groups'] = UserGroup::get();
 
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' =>__('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.user_group'),
+            'href' => url("/user/list")
+        );
+        $data['url_create'] = url("/user-group/create");
+        $data['title'] = __("admin.user_group");
 
         return view('admin.user-group.user-group-list', compact('data'));
     }
@@ -92,6 +106,18 @@ class UserGroupController extends Controller
         } else {
             $data['user_group']['permissions'] = [];
         }
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' =>__('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.user_group'),
+            'href' => url("/user/list")
+        );
 
         $data['permission_list'] = [
             '/user',
@@ -114,6 +140,7 @@ class UserGroupController extends Controller
 
         $data['button_submit_name'] = "Save";
         $data['url_submit'] = url('/user-group/create/');
+        $data['title'] = __("admin.user_group");
 
         return view('admin.user-group.user-group-edit', compact('data'));
     }
@@ -202,9 +229,22 @@ class UserGroupController extends Controller
             '/manufacturer/all',
 
         ];
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' =>__('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.user_group'),
+            'href' => url("/user/list")
+        );
 
         $data['button_submit_name'] = "Save";
         $data['url_submit'] = url('/user-group/edit/' . $id);
+        $data['title'] = __("admin.user_group");
 
 
         return view('admin.user-group.user-group-edit', compact('data'));

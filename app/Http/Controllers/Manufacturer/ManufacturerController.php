@@ -15,10 +15,28 @@ class ManufacturerController extends Controller
      */
     public function index()
     {
-        $user_login_id = Auth::id();
-        $manufacturers = Manufacturer::where('user_id', '=', $user_login_id)->get();
+        $data = [];
 
-        return view('admin.manufacturer.manufacturer-list', compact('manufacturers'));
+        $user_login_id = Auth::id();
+
+        $data['manufacturers'] = Manufacturer::where('user_id', '=', $user_login_id)->get();
+
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.manufacturer'),
+            'href' => url("/manufacturer/list")
+        );
+        $data['url_create'] = url("/manufacturer/create");
+        $data['title'] = __("admin.manufacturer");
+
+        return view('admin.manufacturer.manufacturer-list', compact('data'));
     }
 
     /**
@@ -51,7 +69,7 @@ class ManufacturerController extends Controller
                 ]);
 
                 if ($manufacturer) {
-                    return redirect('/user-group/list');
+                    return redirect('/manufacturer/list');
                 }
             }
 
@@ -68,10 +86,35 @@ class ManufacturerController extends Controller
             $data['manufacturer']['name'] = '';
         }
 
-        
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.user_group'),
+            'href' => url("/user/list")
+        );
+
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.manufacturer'),
+            'href' => url("/manufacturer/list")
+        );
 
         $data['button_submit_name'] = "Create";
         $data['url_submit'] = url('/manufacturer/create');
+        $data['title'] = __("admin.manufacturer");
 
         return view('admin.manufacturer.manufacturer-edit', compact('data'));
     }
@@ -104,34 +147,47 @@ class ManufacturerController extends Controller
 
         if ($id) {
             $manufacturer  = Manufacturer::where("id", '=', $id)->firstOrFail();
-           $data['manufacturer']['id'] = $manufacturer['id'];
+            $data['manufacturer']['id'] = $manufacturer['id'];
         }
 
         // Get previous request
         // Name
 
         if (array_key_exists('name', $request->old())) {
-           $data['manufacturer']['name'] = $request->old('name');
+            $data['manufacturer']['name'] = $request->old('name');
         } elseif ($manufacturer) {
-           $data['manufacturer']['name'] = $manufacturer['name'];
+            $data['manufacturer']['name'] = $manufacturer['name'];
         } else {
-           $data['manufacturer']['name'] = '';
+            $data['manufacturer']['name'] = '';
         }
 
         // email
         if (array_key_exists('description', $request->old())) {
-           $data['manufacturer']['description'] = $request->old('email');
+            $data['manufacturer']['description'] = $request->old('email');
         } elseif ($manufacturer) {
-           $data['manufacturer']['description'] = $manufacturer['description'];
+            $data['manufacturer']['description'] = $manufacturer['description'];
         } else {
-           $data['manufacturer']['description'] = '';
+            $data['manufacturer']['description'] = '';
         }
 
-      
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.manufacturer'),
+            'href' => url("/manufacturer/list")
+        );
+
 
 
         $data['button_submit_name'] = "Save";
         $data['url_submit'] = url('/manufacturer/edit/' . $id);
+        $data['title'] = __("admin.manufacturer");
 
 
         return view('admin.manufacturer.manufacturer-edit', compact('data'));
@@ -155,7 +211,7 @@ class ManufacturerController extends Controller
             ]);
 
             if ($manufacturer) {
-                return redirect('/user-group/list');
+                return redirect('/manufacturer/list');
             }
         }
 
@@ -172,7 +228,7 @@ class ManufacturerController extends Controller
     {
         $user_login_id = Auth::id();
 
-        $manufacturer = Manufacturer::where('user_id', '=', $user_login_id)->where('id','=',$id);
+        $manufacturer = Manufacturer::where('user_id', '=', $user_login_id)->where('id', '=', $id);
         if ($manufacturer) {
             $manufacturer->delete();
 
@@ -186,8 +242,7 @@ class ManufacturerController extends Controller
     public function all()
     {
         $manufacturers = Manufacturer::get();
-    
+
         return view('admin.manufacturer.manufacturer-list', compact('manufacturers'));
     }
-   
 }

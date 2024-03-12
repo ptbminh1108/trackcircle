@@ -20,12 +20,28 @@ class UserController extends Controller
      */
     public function index()
     {
-       
-       
-        $user_login_id = Auth::id();
-        $users = User::with(['user_groups'])->where('id', '!=', $user_login_id)->get();
+        $data = [];
 
-        return view('admin.user.user-list', compact('users'));
+        $user_login_id = Auth::id();
+        $data['users'] = User::with(['user_groups'])->where('id', '!=', $user_login_id)->get();
+
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' =>__('admin.dashboard'),
+			'href' => url("/dashboard")
+		);
+
+		$data['breadcrumbs'][] = array(
+			'text' => __('admin.user'),
+			'href' => url("/user/list")
+		);
+
+        $data['url_create'] = url("/user/create");
+        $data['title'] = __("admin.user");
+
+        return view('admin.user.user-list', compact('data'));
     }
 
     /**
@@ -99,11 +115,24 @@ class UserController extends Controller
             $data['user']['user_group_id'] = '';
         }
 
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' =>__('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.user'),
+            'href' => url("/user/list")
+        );
 
         $user_groups = UserGroup::all();
         $data['user_groups'] = UserGroup::all();
         $data['button_submit_name'] = "Create";
         $data['url_submit'] = url('/user/create');
+        $data['title'] = __("admin.user");
 
         return view('admin.user.user-edit', compact('data'));
     }
@@ -184,10 +213,23 @@ class UserController extends Controller
             $data['user']['user_group_id'] = '';
         }
 
+        // Breadcrumb
+        $data['breadcrumbs'] = array();
+
+        $data['breadcrumbs'][] = array(
+            'text' =>__('admin.dashboard'),
+            'href' => url("/dashboard")
+        );
+
+        $data['breadcrumbs'][] = array(
+            'text' => __('admin.user'),
+            'href' => url("/user/list")
+        );
 
         $data['user_groups'] = UserGroup::all();
         $data['button_submit_name'] = "Save";
         $data['url_submit'] = url('/user/edit/' . $id);
+        $data['title'] = __("admin.user");
 
 
         return view('admin.user.user-edit', compact('data'));

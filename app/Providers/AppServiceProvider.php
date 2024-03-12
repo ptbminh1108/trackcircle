@@ -109,7 +109,7 @@ class AppServiceProvider extends ServiceProvider
 
                 $menus[] = array(
                     'id'       => 'logout',
-                    'icon'       => 'fa-dashboard',
+                    'icon'       => 'fa-sign-out-alt',
                     'name'       =>  'Logout',
                     'href'     =>   url('/logout'),
                     'children' => array(),

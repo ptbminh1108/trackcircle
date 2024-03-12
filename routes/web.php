@@ -94,6 +94,8 @@ Route::middleware(['auth','checkPermission'])->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('profile.edit');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('home');
+
 
 });
 

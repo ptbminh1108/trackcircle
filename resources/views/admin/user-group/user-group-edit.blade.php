@@ -2,55 +2,63 @@
 
 @section('content')
 <main>
-  <div class="card">
-    <div class="card-body">
-      <form method="POST" action="{{ $data['url_submit'] }}">
-        @csrf
-        <div class="mb-3">
-          <label class="form-label">Name</label>
-          <input class="form-control form-control-lg @error('name') is-invalid @enderror" type="text" name="name" placeholder="Enter your name" value="{{ isset($data['user_group']['name'])  ? $data['user_group']['name']: ''}}">
-          @error('name')
-          <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
-          </span>
-          @enderror
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Permission Type</label>
-          <select class="form-control form-control-lg" type="text" name="permission_type" placeholder="Choose permission type">
-            @if(isset($data['user_group']['permission_type']) && $data['user_group']['permission_type'] == 'all')
-            <option value="all" selected>all</option>
-            <option value="custom">custom</option>
-            @else
-            <option value="all">All</option>
-            <option value="custom" selected>Custom</option>
-            @endif
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Permissions</label>
-          <div class="well well-sm" style="height: 150px; overflow: auto;">
-            <div class="checkbox">
-              @foreach ($data['permission_list'] as $permission)
-              @if(in_array($permission, $data['user_group']['permissions']))
-               <label> <input type="checkbox" name="permissions[]" value="{{$permission}}" checked="checked">{{$permission}} </label>
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="user-group-form" data-toggle="tooltip" title="Save" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{url('user-group/list')}}" data-toggle="tooltip" title="Cancel" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{$data['title']}}</h1>
+      <ul class="breadcrumb">
+        @foreach ($data['breadcrumbs'] as $breadcrumb)
+        <li><a href="{{ $breadcrumb['href'] }}">{{ $breadcrumb['text'] }}</a></li>
+        @endforeach
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <form method="POST" action="{{ $data['url_submit'] }}" id="user-group-form">
+          @csrf
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input class="form-control form-control-lg @error('name') is-invalid @enderror" type="text" name="name" placeholder="Enter your name" value="{{ isset($data['user_group']['name'])  ? $data['user_group']['name']: ''}}">
+            @error('name')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Permission Type</label>
+            <select class="form-control form-control-lg" type="text" name="permission_type" placeholder="Choose permission type">
+              @if(isset($data['user_group']['permission_type']) && $data['user_group']['permission_type'] == 'all')
+              <option value="all" selected>all</option>
+              <option value="custom">custom</option>
               @else
-                <label> <input type="checkbox" name="permissions[]" value="{{$permission}}" >{{$permission}} </label>
+              <option value="all">All</option>
+              <option value="custom" selected>Custom</option>
               @endif
-              @endforeach
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Permissions</label>
+            <div class="well well-sm" style="height: 150px; overflow: auto;">
+              <div class="checkbox">
+                @foreach ($data['permission_list'] as $permission)
+                @if(in_array($permission, $data['user_group']['permissions']))
+                <label> <input type="checkbox" name="permissions[]" value="{{$permission}}" checked="checked">{{$permission}} </label>
+                @else
+                <label> <input type="checkbox" name="permissions[]" value="{{$permission}}">{{$permission}} </label>
+                @endif
+                @endforeach
+              </div>
             </div>
           </div>
-        </div>
-
-
-
-
-        <div class="text-center mt-3">
-          <button type="submit" class="btn btn-lg btn-primary">{{ $data['button_submit_name']}}</button>
-          <!-- <button type="submit" class="btn btn-lg btn-primary">Sign up</button> -->
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 </main>

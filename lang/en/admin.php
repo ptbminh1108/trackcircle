@@ -22,4 +22,7 @@ return [
 
     'manufacturer' => 'Manufacturer',
     'item' => 'Item',
+    'user' => 'User',
+    'dashboard' => 'Dashboard',
+
 ];

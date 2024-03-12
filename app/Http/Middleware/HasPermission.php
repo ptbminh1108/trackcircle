@@ -33,7 +33,7 @@ class HasPermission
     }
 
 
-    $common_route = ['/','/home'];
+    $common_route = ['/','/home','/dashboard'];
     if(in_array($request->getRequestUri(),$common_route)){
       return $next($request);
     }
