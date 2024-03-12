@@ -28,7 +28,7 @@ class ManufacturerController extends Controller
                 "description" => $manufacturer['description'],
                 "created_time" => $manufacturer['created_at'],
                 "updated_time" => $manufacturer['updated_at'],
-                "action" => ' <a class="badge bg-success" href="'.url("/user/edit/" . $manufacturer->id).'">  <i data-feather="edit"></i> </a>  <form method="post" action="'.url("/user/delete/" . $manufacturer->id).'"> '.csrf_field().'<button class="badge bg-danger" type="submit">    <i data-feather="trash"></i></button> </form>',
+                "action" => ' <a class="badge bg-success" href="'.url("/manufacturer/edit/" . $manufacturer->id).'">  <i data-feather="edit"></i> </a>  <form method="post" action="'.url("/user/delete/" . $manufacturer->id).'"> '.csrf_field().'<button class="badge bg-danger" type="submit">    <i data-feather="trash"></i></button> </form>',
             );
         }
         // Breadcrumb
